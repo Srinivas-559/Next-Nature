@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.gradient {
+    background: linear-gradient(to bottom, #0d5902, #fcfcfb);
+}
+
+
+.text-fade-out{
+  animation:text-out 10s linear;
+  animation-timeline: view();
+  animation-range: exit -500px ;
+}
+
+@keyframes text-out{
+  to{ 
+    opacity: 0;
+    transform: translateX(100%);
+   
+
+ }
+
+}
+
+.home-image-animation{
+  
+  animation: wallpaper-fade-out linear ;
+  animation-timeline: view();
+  animation-range: exit;
+}
+
+@keyframes wallpaper-fade-out {
+
+  25%{
+  }
+  85%{
+    opacity: 100;
+    
+  }
+}
+
+
+
+
+
+

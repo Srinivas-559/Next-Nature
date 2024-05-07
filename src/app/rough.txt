@@ -1,0 +1,81 @@
+import RaiseYourVoise from "@/components/RaiseYourVoise";
+import Image from "next/image";
+import Link from "next/link";
+
+export default function Home() {
+  return (
+
+    <>
+      <div className="h-[45vh] w-[30vw]  bg-white absolute top-[220px] right-[150px] rounded-lg border border-black shadow-lg">
+        <div className="flex flex-col justify-center  items-center  mt-8">
+
+
+          <div className="m-auto  "><h1 className="text-xl font-bold font-serif">Login</h1></div>
+
+          <div className="flex flex-col">
+            <label htmlFor='username' className="font-semibold mt-5" >Username: </label>
+            <input className=" mt-2 border border-black h-10 w-[400px] rounded-md p-2" name='username' type='text' placeholder='Enter your Username' />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor='password ' className="font-semibold mt-5" >Password: </label>
+            <input className="mt-2 border border-black h-10 w-[400px] rounded-md p-2 " name='password' type='password' placeholder='Enter your Password' />
+          </div>
+          <div>
+            <button className="mt-5 p-2 font-serif  w-[75px] rounded-md  text-white bg-green-900  pl-2 hover:font-bold">Login</button>
+
+          </div>
+          <h2 className=" my-1">New user ? <Link href={'/register'}>Register</Link></h2>
+        </div>
+      </div>
+
+      <div className="w-[100vw] h-[50vh] flex justify-start items-end text-9xl font-serif font-bold "></div>
+
+      <h1 className="text-4xl font-bold text-green-900 font-serif text-center"> Our Work </h1>
+      <div className=" flex justify-center items-center  w-[100vw] h-[50vh] ">
+        <div className="card h-[40vh] w-[20vw] cardh  bg-white border border-black ml-10">
+          <div className="first">
+
+          </div>
+          <div className="second bg-green-50" >
+
+          </div>
+        </div>
+      
+        <div className=" card cardh h-[40vh] w-[20vw]    bg-white border border-black ml-10">
+          <div className="first">
+
+          </div>
+          <div className="second bg-green-50" >
+
+          </div>
+
+        </div>
+        <div className="card cardh h-[40vh] w-[20vw] bg-white border border-black ml-10">
+          <div className="first">
+
+          </div>
+          <div className="second bg-green-50" >
+
+          </div>
+        </div>
+      </div>
+      <div className="h-[80vh] w-[100vw]  mt-10">
+        <h2 className="text-center font-bold text-3xl font-serif">Popular Magzines </h2>
+        <h2 className="text-xl font-serif font-semibold"></h2>
+        <div className="magzines ">
+        
+          <div className="magzine  mt-[100px] flex justify-center items-center gap-[80px] animate-slide">
+            <img className="magzine-hover" src={'Magzine1.jpg'} alt="magzine" width={300} height={300}/>
+            <img className="magzine-hover" src={'nature.png'} alt="magzine" width={300} height={300}/>
+            <img className="magzine-hover" src={'Magzine1.jpg'} alt="magzine" width={300} height={300}/>
+
+            <img className="magzine-hover"src={'Nature-cover-large.jpg'} alt="magzine" width={300} height={300}/>
+          </div>
+          
+        </div>
+      </div>
+      <RaiseYourVoise />
+      
+    </>
+  );
+}
