@@ -20,10 +20,10 @@ export  async  function POST(req,res) {
         }
     
         // Authentication successful
-        return NextResponse.json({ message: 'Login successful' }, {status:200});
+        return NextResponse.json({ message: 'success' }, {status:200});
     } catch (err) {
         console.log("Login Failed ")
-        return NextResponse.json({ message: ' internal server failed ' },{status:500});
+        return NextResponse.json({ message: 'failed' },{status:200});
       }
     
 }

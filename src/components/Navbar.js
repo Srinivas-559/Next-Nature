@@ -1,34 +1,65 @@
-import Link from 'next/link'
-import React from 'react'
-import Dropdown from './Dropdown'
-
-
-
+"use client"
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import Dropdown from './Dropdown';
+import NewDropDown from './NewDropDown';
+import Script from 'next/script';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
+  const items = ["Login", "Register", "About", "AdminPage"];
+  const newsItems = ["news", "our-news"];
+  const [user, setUser] = useState(null);
+  const [selected, setSelected] = useState("");
+  const router = useRouter();
 
-  const items = [ "Login", "Register","About" ,"AdminPage"];
- const newsItems = ["news","our-news"]
-  
+  useEffect(() => {
+    setUser(localStorage.getItem("user"));
+  }, [localStorage.getItem("user")]);
 
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    router.push('/login');
+  }
+
+  useEffect(() => {
+    setSelected(router.pathname); // Set the selected state based on the current path
+  }, [router.pathname]);
 
   return (
-    <div  className='absolute top-0 z-[40]'>
-      <ul className='flex gap-[3rem] justify-center items-center font-bold  text-white text-xl font-serif h-[80px]  w-[100vw] top-0 '>
-          <li className=''></li>
-        {/* <li className='  rounded-full p-2 flex-shrink-0 flex justify-center items-center  '><Link href={"/"} ><span>Home</span></Link><span className='invert text-2xl'><img src={ '/svgs/down-arrow.svg'} /></span></li> */}
-        <li className='  rounded-full p-2 flex-shrink-0 flex justify-center items-center   '><Link href={"/"}>Home</Link></li>
-        <li className='rounded-full p-2 flex-shrink-0 flex justify-center items-center '><Link href={"/wonders"}>Wonders</Link></li>
-        <li className=' rounded-full p-2 flex-shrink-0 flex justify-center items-center '><Dropdown buttonText={"News"} content={newsItems}/><span className='invert text-2xl'><img src={ '/svgs/down-arrow.svg'} /></span></li>
-        <li className=' rounded-full p-2 flex-shrink-0 flex justify-center items-center '><Dropdown buttonText={"More"} content={items} /><span className='invert text-2xl'><img src={ '/svgs/down-arrow.svg'} /></span></li>
-      </ul>
-      {/* <DropDown/> */}
+    <>
+      <Script src="https://cdn.lordicon.com/lordicon.js"></Script>
 
-   
-      
-      
-
-   
+      <div className='w-full absolute z-40 h-16  flex justify-between items-center  text-white font-serif'>
+        <div className='font-bold text-2xl mx-10 '>
+          <span className={selected === "/" ? 'border-b-[2px]  border-green-500' : ''}>
+          <Link href={'/'} onClick={() => setSelected("/")} >
+            <img width={50} src='/svgs/NatureSavior.gif'></img>
+            </Link>
+            </span>
+        </div>
+        <div>
+          <ul className='flex gap-10 text-xl font-medium transition-all ease-linear'>
+          <li className={selected === "/news" ? 'border-b-[2px]  border-green-500' : ''}>
+              <Link href={"/news"} onClick={() => setSelected("/news")}>News</Link>
+            </li>
+            <li className={selected === "/wonders" ? 'border-b-2 border-green-500' : ''}>
+              <Link href={"/wonders"} onClick={() => setSelected("/wonders")}>Wonders</Link>
+            </li>
+            <li className={selected === "/donations" ? 'border-b-2 border-green-500' : ''}>
+              <Link href={"/donations"} onClick={() => setSelected("/donations")}>Donations</Link>
+            </li>
+            <li className={selected === "/about" ? 'border-b-2 border-green-500' : ''}>
+              <Link href={"/about"} onClick={() => setSelected("/about")}>About</Link>
+            </li>
+          </ul>
+        </div>
+        <div className='mx-10'>
+          {user ? <button onClick={handleLogout}>LogOut</button> : null}
+          <NewDropDown buttonText={user ? `Welcome ${user}` : "Profile"} />
+        </div>
       </div>
+    </>
   )
 }

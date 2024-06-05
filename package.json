@@ -9,12 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.19.3",
     "aos": "^2.3.4",
     "axios": "^1.6.8",
     "mongoose": "^8.3.3",
     "next": "14.2.2",
+    "razorpay": "^2.9.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-geocode": "^1.0.0-alpha.1",
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-toastify": "^10.0.5"
   },
   "devDependencies": {
     "postcss": "^8",

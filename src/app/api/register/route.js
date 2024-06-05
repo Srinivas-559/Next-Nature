@@ -26,10 +26,10 @@ export async function POST(req, res) {
     await newUser.save();
 
     // Respond with success message
-    return NextResponse.json({ message: 'User registered successfully' },{status:200});
+    return NextResponse.json({ message: 'success' },{status:200});
   } catch (error) {
     console.error('Error registering user:', error);
-    return NextResponse.json({ error: 'Internal Server Error' });
+    return NextResponse.json({ error: 'Internal Server Error' },{message:"failed"});
   }
 }
 
