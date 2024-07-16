@@ -1,218 +1,164 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react';
 import axios from 'axios';
-import { useState } from 'react'
 import Link from 'next/link';
-import { ToastContainer, toast,Bounce } from 'react-toastify';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+export default function RegistrationPage() {
+  const [email, setEmail] = useState("");
+  const [dob, setDob] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
-
-export default function page() {
-
-      const [email, setEmail] = useState("");
-      const [dob, setDob] = useState("");
-      const [username, setUsername] = useState("");
-      const [password, setPassword] = useState("");
-      const [confirmPassword, setConfirmPassword] = useState("");
-      const [error, setError] = useState("");
-
-      function validateFormData() {
-            if (!(email === "" || password === "" || username === "" || dob === "" || confirmPassword === "")) {
-              if (email.includes('@')) {
-                if (username.length > 6) {
-                  if (password.length > 6) {
-                    if (password === confirmPassword) {
-                      return true;
-        
-                    } else {
-                      setError("Password does not match");
-                      return false;
-                    }
-        
-                  }
-                  else {
-                    setError("minimum 6 characters are required for password ");
-                    return false;
-                  }
-                } else {
-                  setError("minimum 6 characters are required for username ");
-                  return false;
-                }
-        
-        
-              } else {
-                setError("Enter  valid email address");
-                return false;
-              }
-        
+  function validateFormData() {
+    if (email && password && username && dob && confirmPassword) {
+      if (email.includes('@')) {
+        if (username.length > 6) {
+          if (password.length > 6) {
+            if (password === confirmPassword) {
+              return true;
             } else {
-              setError("All fields are required");
+              setError("Passwords do not match");
               return false;
             }
-        
-        
-        
-      }
-      
-
-
-
-      async  function submitFormData() {
-            const response = await axios.post('/api/register', {
-              email,
-              dob,
-              username,
-              password,
-              
-            });
-           
-        console.log(response.data.message);
-        if (response.data.message === 'success') {
-          toast.success('Registered ', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-            });
-        }
-        
-           
+          } else {
+            setError("Password must be at least 6 characters");
+            return false;
           }
-  return (
+        } else {
+          setError("Username must be at least 6 characters");
+          return false;
+        }
+      } else {
+        setError("Enter a valid email address");
+        return false;
+      }
+    } else {
+      setError("All fields are required");
+      return false;
+    }
+  }
 
+  async function submitFormData() {
+    try {
+      const response = await axios.post('/api/register', {
+        email,
+        dob,
+        username,
+        password,
+      });
+      if (response.data.message === 'success') {
+        toast.success('Registered successfully', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      } else {
+        setError(response.data.message);
+      }
+    } catch (error) {
+      setError("Registration failed. Please try again.");
+    }
+  }
+
+  return (
     <>
       <ToastContainer />
-      <div className='absolute top-[65px] bg-white w-[100vw] h-[93vh] flex justify-center items-center '>
-        <div className='w-2/3 h-3/4 border border-black flex rounded-lg font-serif shadow-lg shadow-green-700'>
-          <div className='w-1/2 bg-green-700 flex justify-center items-center'>
-
-            <h1 className=' text-7xl text-white'>Register</h1>
-
-          </div>
-          <div className='w-1/2 flex flex-col justify-center gap-5  '>
-            
-
-         
-            <div className='flex flex-col mx-10   hover:scale-105 transition-all ease-linear'>
-            <label className='' htmlFor='username  '>Username :</label>
+      <div className="flex flex-col md:flex-row">
+        <div className="md:w-1/2 h-screen bg-green-700 text-white flex flex-col justify-center items-center py-12">
+          <h1 className="text-5xl font-bold mb-4">Register</h1>
+          <p className="text-xl text-center">Create your account</p>
+        </div>
+        <div className="md:w-1/2 bg-white flex flex-col justify-center items-center pt-24 pb-8 px-8">
+          <div className="w-full max-w-md">
+            <div className="mb-4">
+              <label htmlFor="username" className="block text-gray-700 font-bold mb-2">Username:</label>
               <input
-                type='text'
-                className='mt-2 p-2 outline-none focus:border-green-700 focus:border-2 rounded-lg border  '
-                name='username'
-                placeholder='Enter username'
-                onChange={(e) => { setUsername(e.target.value) }}/>
+                id="username"
+                type="text"
+                className="appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter your username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </div>
-            <div className='flex flex-col mx-10   hover:scale-105 transition-all ease-linear'>
-            <label className='' htmlFor='email'>Email :</label>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email:</label>
               <input
-                className='mt-2 p-2 outline-none focus:border-green-700 focus:border-2 rounded-lg border  '
-                name='email'
-                placeholder='Enter your email'
-                onChange={(e) => { setEmail(e.target.value) }}/>
+                id="email"
+                type="email"
+                className="appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
-            <div className='flex flex-col mx-10   hover:scale-105 transition-all ease-linear'>
-            <label className='' htmlFor='dob'>Date of Birth :</label>
+            <div className="mb-4">
+              <label htmlFor="dob" className="block text-gray-700 font-bold mb-2">Date of Birth:</label>
               <input
-                type='date'
-                className='mt-2 p-2 outline-none focus:border-green-700 focus:border-2 rounded-lg border  '
-                name='dob'
-                placeholder='Enter your DOB'
-                onChange={(e) => { setDob(e.target.value) }}/>
+                id="dob"
+                type="date"
+                className="appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                value={dob}
+                onChange={(e) => setDob(e.target.value)}
+              />
             </div>
-            
-
-
-
-            <div className='flex flex-col mx-10  hover:scale-105 transition-all ease-linear '>
-            <label htmlFor='password'>Password :</label>
+            <div className="mb-6">
+              <label htmlFor="password" className="block text-gray-700 font-bold mb-2">Password:</label>
               <input
-                type='password'
-                className='mt-2 p-2 outline-none focus:border-green-700 focus:border-2 rounded-lg border '
-                name='password'
-                placeholder='Enter your password'
-                onChange={(e) => { setPassword(e.target.value) }}/>
+                id="password"
+                type="password"
+                className="appearance-none border w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <input
-                type='password'
-                className='mt-2 p-2 outline-none focus:border-green-700 focus:border-2 rounded-lg border '
-                name='confirmPassword'
-                placeholder='Confirm your password '
-                onChange={(e) => { setConfirmPassword(e.target.value) }}/>
+                id="confirmPassword"
+                type="password"
+                className="appearance-none border w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
             </div>
-            <div className='flex flex-col gap-5  mx-10'>
-              <button className='p-2 bg-green-700 rounded-lg text-white hover:scale-105  transition-all ease-linear'
+            <button
+              className="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline w-full"
               onClick={() => {
-                                       if (validateFormData())
-                                             submitFormData();
-                                       else {
-                                             console.log(error);
-                                       }
-                                 }
-                         }
-              
-              >Register</button>
-              <div className='flex justify-center '>
-
-              Already user?<Link className='hover:underline' href={'/login'} >Login</Link> 
-              </div>
+                if (validateFormData()) {
+                  submitFormData();
+                } else {
+                  toast.error(error, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                  });
+                }
+              }}
+            >
+              Register
+            </button>
+            <div className="text-center mt-4">
+              Already a user? <Link className="text-blue-500 cursor-pointer hover:underline" href={'/login'}>Login</Link>
             </div>
-            <div className='text-gray flex justify-center items-center '>
-              <div className=' h-[1px] w-[25%] bg-black'></div><div className=' rounded-full mx-2 p-1 '>or</div><div className='h-[1px] w-[25%] bg-black'></div>
-            </div>
-            
-
           </div>
-          
-       </div>
+        </div>
       </div>
     </>
-
-
-
-
-
-
-    //   <div className='h-[70vh] w-[50vw] bg-white absolute top-[150px] left-[400px]  rounded-lg overflow-hidden  border border-black '>
-    //       <div className='flex flex-col justify-center items-center w-[100%] h-[100%]  gap-[1rem] font-serif shadow-lg'>
-    //     Register ...
-    //     <div className='flex flex-col '>
-
-    //           <label className='font-medium' htmlFor='username'> Username</label>
-    //           <input className='w-[20rem] h-[2.5rem] border border-black px-[1rem] rounded-md mt-[0.5rem] '  type='text' placeholder='Enter username' onChange={(e) => { setUsername(e.target.value) }} ></input>
-    //     </div>
-
-    //     <div className='flex flex-col '>
-
-    //           <label htmlFor='email'> Email:</label>
-    //           <input className='w-[20rem] h-[2.5rem] border border-black px-[1rem] rounded-md mt-[0.5rem]'   type='email' placeholder='Enter your Email' onChange={(e) => { setEmail(e.target.value) }} ></input>
-    //     </div>
-    //     <div className='flex flex-col '>
-
-    //           <label htmlFor='dob'> Date of Birth:</label>
-    //           <input className='w-[20rem] h-[2.5rem] border border-black px-[1rem] rounded-md mt-[0.5rem]'   type='date'  onChange={(e) => { setDob(e.target.value) }} ></input>
-    //     </div>
-    //     <div className='flex flex-col '>
-          
-     
-    //           <label htmlFor='password'> Password: </label>
-    //           <input className='w-[20rem] h-[2.5rem] border border-black px-[1rem] rounded-md mt-[0.5rem]'  type='password' placeholder='Enter your Password' onChange={(e) => { setPassword(e.target.value) }} ></input>
-    //           <input className='w-[20rem] h-[2.5rem] border border-black px-[1rem] rounded-md mt-[0.5rem]'  type='password' placeholder='Confirm Password ' onChange={(e) => { setConfirmPassword(e.target.value) }} ></input>
-    //     </div>
-    //                 <button className='px-[1rem] py-[0.5rem] border border-black rounded-md bg-green-700 text-white ' onClick={() => {
-    //                       if (validateFormData())
-    //                             submitFormData();
-    //                       else {
-    //                             console.log(error);
-    //                       }
-    //                 }
-    //          }>Register</button>
-            
-    //       </div>
-    // </div>
-  )
+  );
 }

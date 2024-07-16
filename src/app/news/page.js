@@ -1,71 +1,69 @@
-"use client"
-import React, { useEffect } from 'react'
-import { useState } from 'react';
+'use client'
+
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ToastContainer, toast,Bounce } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import InfiniteScroll from 'react-infinite-scroll-component';
-
-export default function page() {
-  const [loading ,setLoading ] = useState(true)
+import { MostPopular ,WaterPollution, AirPollution, SoilPollution, NaturalDisasters, HumanMadeDisasters, SpacePollution } from '@/utils/newsData'
+export default function Page() {
+  const [loading, setLoading] = useState(true);
+  const [waterArticles, setWaterArticles] = useState(WaterPollution);
+  const [airArticles, setAirArticles] = useState(AirPollution);
+  const [soilArticles, setSoilArticles] = useState(SoilPollution);
+  const [naturalDisasterArticles, setNaturalDisasterArticles] = useState(NaturalDisasters);
+  const [humanMadeDisasterArticles, setHumanMadeDisasterArticles] = useState(HumanMadeDisasters);
+  const [spacePollutionArticles, setSpacePollutionArticles] = useState(SpacePollution);
+  const [MostPopularArticles, setMostPopularArticles] = useState(MostPopular)
   const router = useRouter();
-  
-  if (localStorage.getItem("user") === null) {
-    
-   
-    router.push("/login");
-    
-    
-  }
+
+  console.log(soilArticles)
+
+
   const handleClick = (item) => {
-    window.open(item.url, '_blank');  // Open the article URL in a new tab
+    window.open(item.link, '_blank'); // Open the article URL in a new tab
   };
-  const [articles, setArticles] = useState([]);
-  const getArticles = async () => {
-    // const response = await fetch(``);
-    const response = await fetch(`${process.env.NEXT_PUBLIC_NEWSAPI_URL}`);
-    const data = await response.json();
 
-    setArticles(data.articles);
-    setLoading(false);
-   
-
-  }
-  useEffect(() => {
-
-    getArticles();
-    
-  }, [])
-  console.log(articles)
-  
-
-  return (
-    <div className='absolute top-[65px] border border-black bg-white  h-[100vh] w-[100vw] overflow-scroll'>
-      <h1 className='text-center font-serif text-2xl font-bold text-green-900 mt-[1rem]'>Most Popular </h1>
-      
-      {loading ? (
-        // Loader while fetching articles
-        <div className="flex justify-center items-center h-full">
-          <div className="loader">
-            <img className='w-[300px]' src='/svgs/turkey.gif'></img>
-          </div>
-        </div>
-      ) : (
-        <section className='mt-[1rem]'>
-          <div className='flex flex-wrap container m-auto gap-1'>
-            {articles.map((item) => (
-              <div onClick={() => handleClick(item)} key={item.title} className='news-card w-[31rem] h-[25rem] border rounded-xl overflow-hidden border-black relative'>
-                <img className='w-full h-full object-cover' src={item.urlToImage ? item.urlToImage : '/pics/Sustainable-practices.jpeg'} alt={item.title} />
-                <div className='bg-black absolute w-full h-full z-1 top-0 opacity-[0.5]'></div>
-                <div className='news-description absolute top-[50%] z-[2] text-white p-3'>
-                  <div className='font-serif font-bold text-2xl'>{item.title}</div>
-                  <div className='font-serif font-medium text-lg mt-[1rem]'>{item.description ? item.description.slice(0, 50) : 'No description'}</div>
+  const renderArticles = (articles, title) => (
+    <>
+      <h1 className='text-center font-serif text-4xl font-bold text-green-900 mt-32'>{title}</h1>
+      <section className='m-12 flex justify-center'>
+        <div className='grid grid-cols-3 gap-4'>
+          {articles && articles.length > 0 ? (
+            articles.map((item, index) => (
+              <div
+                onClick={() => handleClick(item)}
+                key={index}
+                className='news-card w-80 border overflow-hidden border-black relative cursor-pointer transform transition-transform '
+              >
+                <img
+                  className='w-full h-48 object-cover'
+                  src={item.image}
+                  alt={item.title}
+                />
+                <div className='p-4'>
+                  <div className='font-serif font-bold text-xl text-green-900'>{item.title.slice(0, 50)}...</div>
+                  <div className='font-serif font-medium text-base mt-2 text-gray-700'>{item.description ? item.description.slice(0, 100) : 'No description available.'}</div>
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
-      )}
+            ))
+          ) : (
+            <div className="text-center text-gray-700 mt-8">No articles available</div>
+          )}
+        </div>
+      </section>
+    </>
+  );
+
+  return (
+    <div className='mt-24'>
+      <ToastContainer />
+      {renderArticles(MostPopular, "Most Popular")}
+      {renderArticles(naturalDisasterArticles, "Natural Disasters")}
+      {renderArticles(humanMadeDisasterArticles, "Human-Made Disasters")}
+      {renderArticles(airArticles, "Air Pollution Incidents")}
+      {renderArticles(waterArticles, "Water Pollution Incidents")}
+      {renderArticles(soilArticles, "Soil Pollution Incidents")}
+      {renderArticles(spacePollutionArticles, "Space Pollution Incidents")}
     </div>
-  )
+  );
 }

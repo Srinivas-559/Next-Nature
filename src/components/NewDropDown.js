@@ -24,7 +24,7 @@ const NewDropDown = ({ buttonText}) => {
         id="dropdownDelayButton"
         onMouseEnter={() => setIsDropdownVisible(true)}
         onMouseLeave={() => setIsDropdownVisible(false)}
-        className="text-xl  relative text-white  hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  px-5 py-2.5 text-center inline-flex items-center bg-transparent dark:focus:ring-green-800"
+        className="text-xl  relative text-white   hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium   px-5 py-2.5 text-center inline-flex items-center bg-transparent dark:focus:ring-green-800"
         type="button"
       >
               { buttonText}
@@ -35,19 +35,19 @@ const NewDropDown = ({ buttonText}) => {
 
       <div
         id="dropdownDelay"
-        className={`absolute -left-[3rem]  z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 ${isDropdownVisible ? 'block' : 'hidden'} `}
+        className={`absolute -left-[3rem]  z-10 bg-white divide-y divide-gray-100  shadow w-44 dark:bg-green-900 ${isDropdownVisible ? 'block' : 'hidden'} `}
         onMouseEnter={() => setIsDropdownVisible(true)}
         onMouseLeave={() => setIsDropdownVisible(false)}
       >
         <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
           <li>
-            <Link href={"/login"} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Login</Link>
+            <Link href={"/login"} className="block px-4 py-2 hover:bg-green-900 hover:text-white dark:hover:bg-white dark:hover:text-green-900">Login</Link>
           </li>
           <li>
-            <Link href={"/register"} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">SignUP</Link>
+            <Link href={"/register"} className="block px-4 py-2 hover:bg-green-900 hover:text-white dark:hover:bg-white dark:hover:text-green-900">SignUP</Link>
           </li>
           <li>
-            <Link href={`/${user}`} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Your Profile</Link>
+            <Link href={`/${user}`} className="block px-4 py-2 hover:bg-green-900 hover:text-white dark:hover:bg-white dark:hover:text-green-900">Your Profile</Link>
           </li>
           
         </ul>

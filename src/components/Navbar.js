@@ -1,7 +1,6 @@
 "use client"
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import Dropdown from './Dropdown';
 import NewDropDown from './NewDropDown';
 import Script from 'next/script';
 import { useRouter } from 'next/navigation';
@@ -14,14 +13,15 @@ export default function Navbar() {
   const router = useRouter();
 
   useEffect(() => {
-    setUser(localStorage.getItem("user"));
-  }, [localStorage.getItem("user")]);
+    const storedUser = localStorage.getItem("user");
+    setUser(storedUser);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
     router.push('/login');
-  }
+  };
 
   useEffect(() => {
     setSelected(router.pathname); // Set the selected state based on the current path
@@ -30,36 +30,46 @@ export default function Navbar() {
   return (
     <>
       <Script src="https://cdn.lordicon.com/lordicon.js"></Script>
-
-      <div className='w-full absolute z-40 h-16  flex justify-between items-center  text-white font-serif'>
-        <div className='font-bold text-2xl mx-10 '>
-          <span className={selected === "/" ? 'border-b-[2px]  border-green-500' : ''}>
-          <Link href={'/'} onClick={() => setSelected("/")} >
-            <img width={50} src='/svgs/NatureSavior.gif'></img>
+      <nav className='w-full absolute z-40 h-20 bg-gradient-to-r from-green-600 to-green-800 shadow-lg flex justify-between items-center text-white font-serif px-10'>
+        <div className='flex items-center'>
+          <Link href={'/'} className='flex items-center'>
+              <img src='/svgs/NatureSavior.gif' alt='Nature Savior Logo' className='pb-4' width={50} />
+              <span className={`ml-2 text-2xl font-bold ${selected === "/" ? 'border-b-2 border-green-300' : ''}`}>
+                Nature Saviors
+              </span>
+          </Link>
+        </div>
+        <ul className='flex gap-8 text-xl font-medium'>
+          <li className={`transition-all ${selected === "/news" ? 'border-b-2 border-green-300' : ''}`}>
+            <Link href="/news" onClick={() => setSelected("/news")}>News
             </Link>
-            </span>
-        </div>
-        <div>
-          <ul className='flex gap-10 text-xl font-medium transition-all ease-linear'>
-          <li className={selected === "/news" ? 'border-b-[2px]  border-green-500' : ''}>
-              <Link href={"/news"} onClick={() => setSelected("/news")}>News</Link>
-            </li>
-            <li className={selected === "/wonders" ? 'border-b-2 border-green-500' : ''}>
-              <Link href={"/wonders"} onClick={() => setSelected("/wonders")}>Wonders</Link>
-            </li>
-            <li className={selected === "/donations" ? 'border-b-2 border-green-500' : ''}>
-              <Link href={"/donations"} onClick={() => setSelected("/donations")}>Donations</Link>
-            </li>
-            <li className={selected === "/about" ? 'border-b-2 border-green-500' : ''}>
-              <Link href={"/about"} onClick={() => setSelected("/about")}>About</Link>
-            </li>
-          </ul>
-        </div>
-        <div className='mx-10'>
-          {user ? <button onClick={handleLogout}>LogOut</button> : null}
+          </li>
+          <li className={`transition-all ${selected === "/wonders" ? 'border-b-2 border-green-300' : ''}`}>
+            <Link href="/wonders" onClick={() => setSelected("/wonders")}>Wonders
+            </Link>
+          </li>
+          <li className={`transition-all ${selected === "/about" ? 'border-b-2 border-green-300' : ''}`}>
+            <Link href="/createmeetup" onClick={() => setSelected("/createmeetup")}>Meet-Ups
+            </Link>
+          </li>
+          <li className={`transition-all ${selected === "/donations" ? 'border-b-2 border-green-300' : ''}`}>
+            <Link href="/donations" onClick={() => setSelected("/donations")}>Donations
+            </Link>
+          </li>
+          <li className={`transition-all ${selected === "/about" ? 'border-b-2 border-green-300' : ''}`}>
+            <Link href="/about" onClick={() => setSelected("/about")}>About
+            </Link>
+          </li>
+        </ul>
+        <div className='flex items-center'>
+          {user ? (
+            <button onClick={handleLogout} className='mr-4 px-4 py-2 text-xl text-white hover:bg-white hover:text-green-900 transition-colors'>
+              Logout
+            </button>
+          ) : null}
           <NewDropDown buttonText={user ? `Welcome ${user}` : "Profile"} />
         </div>
-      </div>
+      </nav>
     </>
   )
 }

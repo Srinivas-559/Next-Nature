@@ -14,15 +14,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className=''>
-        <div className=" h-[100vh]  w-[100vw]   relative gradient">
-          
+        <div className="fixed top-0 w-screen z-[50]">
         <Navbar />
         </div>
-        {children}
-        
-
-          
-         
+        {children}         
       </body>
     </html>
   );

@@ -1,10 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*{
+  scroll-behavior: smooth;
+}
+
 .gradient {
     background: linear-gradient(to bottom, #0d5902, #fcfcfb);
 }
 
+.element{
+  box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1) inset,
+  -10px -10px 10px white inset;
+}
 
 .text-fade-out{
   animation:text-out 10s linear;

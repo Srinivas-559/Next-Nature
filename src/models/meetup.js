@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const MeetupSchema = new mongoose.Schema({
-    user: {type:String ,required:true},
-    title: { type:String ,required:true },
+    user: { type: String, required: true },
+    title: { type: String, required: true },
     address: { type: String, required: true },
     description: { type: String, required: true },
     email: { type: String, required: true },
@@ -14,4 +14,6 @@ const MeetupSchema = new mongoose.Schema({
     themePic: { type: String }, // Base64 encoded image
 });
 
-export default mongoose.models.Meetup || mongoose.model('Meetup', MeetupSchema);
+const Meetup = mongoose.models.Meetup || mongoose.model('Meetup', MeetupSchema);
+
+export default Meetup;

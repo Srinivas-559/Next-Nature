@@ -57,28 +57,54 @@ const DonationForm = () => {
 
         var rzp1 = new Razorpay(options);
         rzp1.open();
-
-        
     };
 
     return (
         <>
             <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
-            <h1 className='text-xl m-2 mt-5 text-center font-semibold'>Details </h1>
-            <div className='w-[70%] mx-auto border border-black flex flex-col m-7 p-5 bg-gray-100 rounded-lg'>
-                <div className='flex flex-col'>
-                    <label htmlFor='name' className='text-lg mx-2'>Name :</label>
-                    <input type='text' className='w-1/2 p-2 m-2 rounded-lg' name='name' value={paymentform.name} placeholder='Enter your name' onChange={handleChange}></input>
+            <div className='flex justify-center items-center min-h-screen w-full z-[-50]'>
+                <div className='w-full max-w-md bg-white p-6'>
+                    <h1 className='text-3xl font-bold mb-6 text-center text-green-700'>Donate to Nature Saviors</h1>
+                    <div className='flex flex-col mb-4 w-full pt-4'>
+                        <label htmlFor='name' className='text-lg mb-2'>Name :</label>
+                        <input 
+                            type='text' 
+                            className='p-3 border  focus:outline-none focus:border-green-500' 
+                            name='name' 
+                            value={paymentform.name} 
+                            placeholder='Enter your name' 
+                            onChange={handleChange} 
+                        />
+                    </div>
+                    <div className='flex flex-col mb-4'>
+                        <label htmlFor='message' className='text-lg mb-2'>Message :</label>
+                        <input 
+                            type='text' 
+                            className='p-3 border  focus:outline-none focus:border-green-500' 
+                            name='message' 
+                            value={paymentform.message} 
+                            placeholder='Give a message' 
+                            onChange={handleChange} 
+                        />
+                    </div>
+                    <div className='flex flex-col mb-4'>
+                        <label htmlFor='amount' className='text-lg mb-2'>Amount :</label>
+                        <input 
+                            type='text' 
+                            className='p-3 border  focus:outline-none focus:border-green-500' 
+                            name='amount' 
+                            value={paymentform.amount} 
+                            placeholder='Enter amount' 
+                            onChange={handleChange} 
+                        />
+                    </div>
+                    <button 
+                        className='w-full p-3 bg-green-700 text-white  hover:bg-green-800 transition-all ease-linear'
+                        onClick={() => pay(Number.parseInt(paymentform.amount) * 100)}
+                    >
+                        Pay
+                    </button>
                 </div>
-                <div className='flex flex-col'>
-                    <label htmlFor='message' className='text-lg mx-2'>Message :</label>
-                    <input type='text' className='w-1/2 p-2 m-2 rounded-lg' name='message' value={paymentform.message} placeholder='Give a message' onChange={handleChange}></input>
-                </div>
-                <div className='flex flex-col'>
-                    <label htmlFor='amount' className='text-lg mx-2'>Amount :</label>
-                    <input type='text' className='w-1/2 p-2 m-2 rounded-lg' name='amount' value={paymentform.amount} placeholder='Enter amount' onChange={handleChange}></input>
-                </div>
-                <button className='w-1/2 p-2 mx-2 bg-black text-white rounded-lg hover:scale-105 transition-all ease-linear' onClick={() => pay(Number.parseInt(paymentform.amount) * 100)}>Pay</button>
             </div>
         </>
     );
